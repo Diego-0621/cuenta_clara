@@ -18,7 +18,7 @@ class TarjetaPago extends StatelessWidget {
     required this.onEliminar,
     required this.onCambiarEstado,
   });
-  String get _estado {
+  String get estado {
     if (pago.pagado) return 'Pagado';
     final hoy = soloFecha(DateTime.now());
     final vencimiento = soloFecha(pago.fechaVencimiento);
@@ -31,7 +31,7 @@ class TarjetaPago extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = pago.pagado
         ? Colors.green.shade700
-        : _estado == 'Vencido'
+        : estado == 'Vencido'
         ? Theme.of(context).colorScheme.error
         : Theme.of(context).colorScheme.primary;
     return Card(
@@ -46,24 +46,18 @@ class TarjetaPago extends StatelessWidget {
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 4),
-            Text(
-              '${pago.categoria.etiqueta} · ${formatearFecha(pago.fechaVencimiento)}',
-            ),
-            const SizedBox(height: 4),
-            Text(
-              formatearPesos(pago.monto),
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(
-              _estado,
-              style: TextStyle(color: color, fontWeight: FontWeight.w600),
-            ),
-            if (pago.nota.trim().isNotEmpty) Text('Nota: ${pago.nota}'),
-          ],
-        ),
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    const SizedBox(height: 4),
+    Text('${pago.categoria.etiqueta} • ${formatearFecha(pago.fechaVencimiento)}'),
+    const SizedBox(height: 4),
+    Text('Responsable: ${pago.responsable}', style: const TextStyle(fontWeight: FontWeight.w500)),
+    const SizedBox(height: 4),
+    Text(formatearPesos(pago.monto), style: Theme.of(context).textTheme.titleMedium),
+    Text(estado, style: TextStyle(color: color, fontWeight: FontWeight.w600)),
+    if (pago.nota.trim().isNotEmpty) Text('Nota: ${pago.nota}'),
+  ],
+),
         // Pulsar la tarjeta también permite editar.
         onTap: onEditar,
         trailing: PopupMenuButton<AccionPago>(

@@ -12,11 +12,13 @@ void main() {
       fechaVencimiento: DateTime(2026, 10, 22),
       pagado: false,
       nota: '',
+      responsable: 'Mamá',
     );
     final nuevo = original.copyWith(pagado: true);
     expect(nuevo.id, 'abc');
     expect(nuevo.pagado, true);
-    expect(original.pagado, false); // Inmutabilidad.
+    expect(original.pagado, false); 
+    expect(nuevo.responsable, 'Mamá');// Inmutabilidad.
   });
   test('formatearPesos utiliza separadores de miles', () {
     expect(formatearPesos(1250000), '\$1.250.000');
